@@ -1,7 +1,7 @@
 package org.aku.freello.services;
 
 import lombok.Data;
-import org.aku.freello.dto.CreateTaskDto;
+import org.aku.freello.models.dto.CreateTaskDto;
 import org.aku.freello.models.Task;
 import org.aku.freello.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,10 +6,9 @@ import org.aku.freello.models.User;
 import java.util.UUID;
 
 @Getter
-public class CreateProjectDto {
+public class UpdateProjectDto {
     private String name;
-    UUID admin;
-
+    private UUID admin;
     public User getAdminAsUser() {
         return new User(admin);
     }

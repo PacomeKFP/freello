@@ -1,4 +1,4 @@
-package org.aku.freello.dto;
+package org.aku.freello.models.dto;
 
 import lombok.Getter;
 

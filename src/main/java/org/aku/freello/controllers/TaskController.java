@@ -1,7 +1,6 @@
 package org.aku.freello.controllers;
 
-import org.aku.freello.dto.CreateTaskDto;
-import org.aku.freello.models.Project;
+import org.aku.freello.models.dto.CreateTaskDto;
 import org.aku.freello.models.Task;
 import org.aku.freello.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;

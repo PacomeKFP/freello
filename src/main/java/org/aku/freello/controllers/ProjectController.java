@@ -1,6 +1,6 @@
 package org.aku.freello.controllers;
 
-import org.aku.freello.dto.CreateProjectDto;
+import org.aku.freello.models.dto.CreateProjectDto;
 import org.aku.freello.models.Project;
 import org.aku.freello.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,8 @@ public class ProjectController {
     }
 
     @PatchMapping("{id}")
-    public void update(@PathVariable UUID id, @RequestBody Project project) {
-
+    public void inviteCollaborator(@PathVariable UUID id, @RequestBody String email) {
+        this.projectService.inviteCollaborator(id, email);
     }
 
     @DeleteMapping("{id}")
