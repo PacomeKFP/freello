@@ -1,0 +1,183 @@
+package com.enspy.api.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import org.enspy.api.*;
+
+
+@RestController
+public class EmployeeController {
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    /**
+    * Read - Get all employees
+    * @return - An Iterable object of Employee full filled
+    */
+    @GetMapping("/employees")
+    public Iterable<Employee> getEmployees() {
+        return employeeService.getEmployees();
+    }
+
+}
+
+
+@RestController
+@RequestMapping("/tasks")
+public class TaskController {
+
+    @Autowired
+    private TaskService taskService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTask(@PathVariable int id) {
+        return taskService.getTask(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/")
+    public Iterable<Task> getAllTasks() {
+        return taskService.getAllTasks();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable int id) {
+        taskService.deleteTask(id);
+    }
+
+    @PostMapping("/")
+    public Task saveTask(@RequestBody Task task) {
+        return taskService.saveTask(task);
+    }
+}
+
+
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable int id) {
+        return userService.getUser(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/")
+    public Iterable<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
+    }
+
+    @PostMapping("/")
+    public User saveUser(@RequestBody User user) {
+        return userService.saveUser(user);
+    }
+}
+
+
+@RestController
+@RequestMapping("/projects")
+public class ProjectController {
+
+    @Autowired
+    private ProjectService projectService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Project> getProject(@PathVariable int id) {
+        return projectService.getProject(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/")
+    public Iterable<Project> getAllProjects() {
+        return projectService.getAllProjects();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProject(@PathVariable int id) {
+        projectService.deleteProject(id);
+    }
+
+    @PostMapping("/")
+    public Project saveProject(@RequestBody Project project) {
+        return projectService.saveProject(project);
+    }
+}
+
+
+@RestController
+@RequestMapping("/projectMembers")
+public class ProjectMemberController {
+
+    @Autowired
+    private ProjectMemberService projectMemberService;
+
+    @GetMapping("/{projectId}/{userId}")
+    public ResponseEntity<ProjectMember> getProjectMember(@PathVariable int projectId, @PathVariable int userId) {
+        return projectMemberService.getProjectMember(projectId, userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/")
+    public Iterable<ProjectMember> getAllProjectMembers() {
+        return projectMemberService.getAllProjectMembers();
+    }
+
+    @DeleteMapping("/{projectId}/{userId}")
+    public void deleteProjectMember(@PathVariable int projectId, @PathVariable int userId) {
+        projectMemberService.deleteProjectMember(projectId, userId);
+    }
+
+    @PostMapping("/")
+    public ProjectMember saveProjectMember(@RequestBody ProjectMember projectMember) {
+        return projectMemberService.saveProjectMember(projectMember);
+    }
+}
+
+
+@RestController
+@RequestMapping("/taskWorkers")
+public class TaskWorkerController {
+
+    @Autowired
+    private TaskWorkerService taskWorkerService;
+
+    @GetMapping("/{taskId}/{userId}")
+    public ResponseEntity<TaskWorker> getTaskWorker(@PathVariable int taskId, @PathVariable int userId) {
+        return taskWorkerService.getTaskWorker(taskId, userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/")
+    public Iterable<TaskWorker> getAllTaskWorkers() {
+        return taskWorkerService.getAllTaskWorkers();
+    }
+
+    @DeleteMapping("/{taskId}/{userId}")
+    public void deleteTaskWorker(@PathVariable int taskId, @PathVariable int userId) {
+        taskWorkerService.deleteTaskWorker(taskId, userId);
+    }
+
+    @PostMapping("/")
+    public TaskWorker saveTaskWorker(@RequestBody TaskWorker taskWorker) {
+        return taskWorkerService.saveTaskWorker(taskWorker);
+    }
+}
+
+

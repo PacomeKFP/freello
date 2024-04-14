@@ -1,4 +1,4 @@
-package org.enspy.api;
+package org.enspy.freello;
 
 
 import javax.persistence.Column;
