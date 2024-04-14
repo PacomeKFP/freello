@@ -1,0 +1,31 @@
+package org.enspy.freello;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import org.enspy.freello.api.model.*;
+
+
+@Repository
+public interface TaskRepository extends CrudRepository<Task, Integer> {
+}
+
+
+@Repository
+public interface UserRepository extends CrudRepository<User, Integer> {
+}
+
+
+@Repository
+public interface ProjectRepository extends CrudRepository<Project, Integer> {
+}
+
+
+@Repository
+public interface ProjectMemberRepository extends CrudRepository<ProjectMember, Integer> {
+}
+
+
+@Repository
+public interface TaskWorkerRepository extends CrudRepository<TaskWorker, Integer> {
+}
