@@ -11,7 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "projets")
 public class Project {
@@ -23,11 +25,7 @@ public class Project {
     private String name;
 
     @ManyToOne
-    @Column(name = "user_id")
     private User user;
-
-    @ManyToMany
-    Set<User> collaborators;
 
     public UUID getId() {
         return this.id_p;
@@ -52,15 +50,6 @@ public class Project {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public Set<User> getCollaborators() {
-        return this.collaborators;
-    }
-
-    public void setCollaborators(Set<User> collaborators) {
-        this.collaborators = collaborators;
-    }
-
     
     public Project() {
     }

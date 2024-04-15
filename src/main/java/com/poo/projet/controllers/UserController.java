@@ -30,29 +30,17 @@ public class UserController {
         model.addAttribute("users", users);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createuser")
     public void createUser(@Valid @ModelAttribute UserRequire userRequire){
-
-        User users = new User();
-        users.setName(userRequire.getName());
-        users.setEmail(userRequire.getEmail());
-        users.setPassword(userRequire.getPassword());
-
-        userService.saveUser(users);
+        userService.createUser(userRequire);
     }
 
-    @GetMapping("/edit")
+    @PostMapping("/edituser")
     public void updateUser(Model model, @RequestParam UUID id, @Valid @ModelAttribute UserRequire userRequire){
-        Optional<User> users = userService.findOne(id);
-        model.addAttribute("users", users);
-
-        users.get().setName(userRequire.getName());
-        users.get().setName(userRequire.getEmail());
-
-        userService.saveUser(users.get());
+        userService.updateUser(id, userRequire);
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/deleteuser")
     public void deleteUser(@RequestParam UUID id){
         userService.deleteUser(id);
     }

@@ -11,7 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "tasks")
 public class Tasks {
@@ -35,9 +37,6 @@ public class Tasks {
 
     @Column(name = "created_at")
     private Date createdAt;
-
-    @ManyToOne
-    Set<User> workers;
 
     public UUID getId_t() {
         return this.id_t;
@@ -77,13 +76,5 @@ public class Tasks {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Set<User> getWorkers() {
-        return this.workers;
-    }
-
-    public void setWorkers(Set<User> workers) {
-        this.workers = workers;
     }
 }
