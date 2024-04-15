@@ -12,6 +12,7 @@ public class UserRequire {
     private String email;
 
     @NotEmpty(message = "the password is required")
+    private String password;
 
     public String getName() {
         return this.name;
@@ -36,6 +37,5 @@ public class UserRequire {
     public void setPassword(String password) {
         this.password = password;
     }
-    private String password;
 
 }

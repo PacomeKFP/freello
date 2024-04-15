@@ -5,42 +5,48 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.poo.projet.models.User;
 import com.poo.projet.models.require.UserRequire;
 import com.poo.projet.services.UserService;
 
-import jakarta.validation.Valid;
-
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping({"", "/"})
-    public void showUser(Model model){
-        Iterable<User> users = userService.getUser();
-        model.addAttribute("users", users);
+    @GetMapping("/users")
+    public Iterable<User>  showUser(){
+        return userService.getUser();
     }
 
-    @PostMapping("/createuser")
-    public void createUser(@Valid @ModelAttribute UserRequire userRequire){
+    @GetMapping("/users/{id}")
+    public Optional<User> searchuser(@RequestParam UUID id){
+        return userService.findOne(id);
+    }
+
+    @PostMapping("/users")
+    public Iterable<User> createUser(@RequestBody UserRequire userRequire){
         userService.createUser(userRequire);
+        return userService.getUser();
     }
 
-    @PostMapping("/edituser")
-    public void updateUser(Model model, @RequestParam UUID id, @Valid @ModelAttribute UserRequire userRequire){
+    @PatchMapping("/users/{id}")
+    public Optional<User> updateUser(Model model, @RequestParam UUID id, @RequestBody UserRequire userRequire){
         userService.updateUser(id, userRequire);
+        return userService.findOne(id);
     }
 
-    @GetMapping("/deleteuser")
+    @DeleteMapping("/users/{id}")
     public void deleteUser(@RequestParam UUID id){
         userService.deleteUser(id);
     }

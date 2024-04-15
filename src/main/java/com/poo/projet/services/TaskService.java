@@ -1,5 +1,6 @@
 package com.poo.projet.services;
 
+import java.sql.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import com.poo.projet.models.require.TaskRequire;
 import com.poo.projet.repository.TaskRepository;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class TaskService {
@@ -21,7 +23,7 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     public Iterable<Tasks> getTask(){
-        return taskRepository.findAll();
+        return taskRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
     public Optional<Tasks> findOne(UUID id){
@@ -34,9 +36,11 @@ public class TaskService {
 
     public void createTask(@Valid @ModelAttribute TaskRequire taskRequire){
         Tasks tasks = new Tasks();
+        Date date = new Date(System.currentTimeMillis());
         tasks.setTitle(taskRequire.getTitle());
         tasks.setDescription(taskRequire.getDescription());
         tasks.setStatus(tasks.getStatus());
+        tasks.setCreatedAt(date);
 
         taskRepository.save(tasks);
     }
@@ -46,7 +50,7 @@ public class TaskService {
         tasks.get().setTitle(taskRequire.getTitle());
         tasks.get().setDescription(taskRequire.getDescription());
         tasks.get().setStatus(tasks.get().getStatus());
-        
+
         taskRepository.save(tasks.get());
     }
 
