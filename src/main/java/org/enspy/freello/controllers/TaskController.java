@@ -3,6 +3,7 @@ package org.enspy.freello.controllers;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.enspy.freello.models.Project;
 import org.enspy.freello.models.Task;
 import org.enspy.freello.models.dto.CreateTaskDto;
 import org.enspy.freello.services.TaskService;
@@ -32,8 +33,8 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public Optional<Task> create(@RequestBody CreateTaskDto createTaskDto){
-        return taskService.add(createTaskDto);
+    public Iterable<Task> create(@RequestBody CreateTaskDto createTaskDto, @RequestParam UUID id){
+        return taskService.add(createTaskDto, new Project(id));
     }
 
     @PatchMapping("/tasks/{id}")
@@ -44,5 +45,10 @@ public class TaskController {
     @DeleteMapping("/tasks/{id}")
     public void deleteTask(@RequestParam UUID id){
         taskService.delete(id);
+    }
+
+    @PostMapping("/tasks/{taskId}/collaborators/{collaboratorId}")
+    public void addMemberToProject(@RequestParam UUID taskId, @RequestParam UUID collaboratorId){
+         taskService.addCollaboratorTask(taskId, collaboratorId);
     }
 }

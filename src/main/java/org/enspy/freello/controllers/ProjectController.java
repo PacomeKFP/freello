@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.enspy.freello.models.Project;
+import org.enspy.freello.models.User;
 import org.enspy.freello.models.dto.CreateProjectDto;
 import org.enspy.freello.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class ProjectController {
     }
 
     @PostMapping("/projects")
-    public Iterable<Project> createProject(@RequestBody CreateProjectDto createProjectDto){
-        return projectService.add(createProjectDto);
+    public Iterable<Project> createProject(@RequestBody CreateProjectDto createProjectDto, @RequestParam UUID id){
+        return projectService.add(createProjectDto, new User(id));
     }
 
     @PatchMapping("/projects/{id}")
@@ -44,5 +45,10 @@ public class ProjectController {
     @DeleteMapping("/projects/{id}")
     public void deleteProject(@RequestParam UUID id){
         projectService.delete(id);
+    }
+
+    @PostMapping("/projects/{projectId}/members/{memberId}")
+    public void addMember(@RequestParam UUID projectId, @RequestParam UUID memberId){
+        projectService.addMemberToProject(projectId, memberId);
     }
 }

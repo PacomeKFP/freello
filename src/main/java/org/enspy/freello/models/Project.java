@@ -8,8 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -24,11 +27,23 @@ public class Project {
 
     private String name;
 
+    // gestion des taches
+    @OneToMany(mappedBy = "projet")
+    private Set<Task> projects = new HashSet<>();
+
+    // gestion de l'admin
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User admin;
 
+    // gestion des membres
     @ManyToMany
-    private Set<User> members;
+    @JoinTable(
+        name = "project_members",
+        joinColumns = @JoinColumn(name = "project_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> members = new HashSet<>();
 
     public Project() {}
 
@@ -36,15 +51,8 @@ public class Project {
         this.id = id;
     }
 
-    // public Project(String name, User admin) {
-    //     this.name = name;
-    //     this.members = new HashSet<>();
-    //     this.members.add(admin.getEmail());
-    // }
-
     public Project(String name, User admin) {
         this.name = name;
-        this.members = new HashSet<>();
-        this.members.add(admin);
+        this.admin = admin;
     }
 }

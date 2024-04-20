@@ -1,6 +1,7 @@
 package org.enspy.freello.models;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -9,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -33,11 +36,19 @@ public class Task {
     @Column(name = "createdAt")
     private Date createdAt;
 
+    // gestion des projets
     @ManyToOne
-    private Project project;
+    @JoinColumn(name = "projet_id", nullable = false)
+    private Project projet;
 
+    // gestion des membres
     @ManyToMany
-    private Set<User> workers;
+    @JoinTable(
+        name = "task_collaborator",
+        joinColumns = @JoinColumn(name = "task_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> collaborators = new HashSet<>();
 
     public Task() {}
 
@@ -46,7 +57,7 @@ public class Task {
         this.description = description;
         this.status = status;
         this.createdAt = createdAt;
-        this.project = project;
+        this.projet = project;
     }
 
 }

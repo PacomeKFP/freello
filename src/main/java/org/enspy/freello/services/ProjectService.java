@@ -20,6 +20,9 @@ public class ProjectService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public Iterable<Project> findAll(){
         return projectRepository.findAll();
     }
@@ -32,10 +35,12 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public Iterable<Project> add(CreateProjectDto createProjectDto){
+    public Iterable<Project> add(CreateProjectDto createProjectDto, User creator){
 
-        User user = userRepository.findByEmail(createProjectDto.getAdminAsUser().getEmail());
-        Project projects = new Project( createProjectDto.getName(), user );
+        Project projects = new Project();
+        projects.setName(createProjectDto.getName());
+        projects.setAdmin(creator);
+        projects.getMembers().add(creator); // Ajouter le créateur aux membres du projet
         projectRepository.save(projects);
 
         return projectRepository.findAll();
@@ -53,5 +58,23 @@ public class ProjectService {
 
     public void delete(UUID id){
         projectRepository.deleteById(id);
+    }
+
+    //ajout de membres au projet
+    public Project addMemberToProject(UUID projectId, UUID memberId) {
+        // Récupération du projet et du membre par leurs ID
+        Project projects = projectRepository.findById(projectId)
+            .orElseThrow(() -> new IllegalArgumentException("Projet non trouvé"));
+        User member = userRepository.findById(memberId)
+            .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
+        
+        // Ajouter le membre au projet
+        projects.getMembers().add(member);
+        
+        // Envoyer une notification au membre ajouté
+        notificationService.notify(member, "Vous avez été ajouté au projet : " + projects.getName());
+        
+        // Enregistrement des modifications dans la base de données
+        return projectRepository.save(projects);
     }
 }
