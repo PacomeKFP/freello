@@ -27,14 +27,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Iterable<User> add(CreateUserDto createUserDto){
-        User users = new User();
-        users.setName(createUserDto.getName());
-        users.setEmail(createUserDto.getEmail());
-        users.setPassword(createUserDto.getPassword());
+    public User add(CreateUserDto createUserDto){
+        User user = new User();
+        user.setName(createUserDto.getName());
+        user.setEmail(createUserDto.getEmail());
+        user.setPassword(createUserDto.getPassword());
 
-        userRepository.save(users);
-        return userRepository.findAll();
+       return userRepository.save(user);
     }
 
     public Optional<User> update(UUID id, CreateUserDto createUserDto){
