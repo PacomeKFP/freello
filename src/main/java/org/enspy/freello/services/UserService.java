@@ -1,8 +1,10 @@
 package org.enspy.freello.services;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
+import org.enspy.freello.models.Project;
 import org.enspy.freello.models.User;
 import org.enspy.freello.models.dto.CreateUserDto;
 import org.enspy.freello.repositories.UserRepository;
@@ -21,6 +23,10 @@ public class UserService {
 
     public Optional<User> findOne(UUID id){
         return userRepository.findById(id);
+    }
+
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     public User save(User user){
@@ -50,5 +56,11 @@ public class UserService {
 
     public void delete(UUID id){
         userRepository.deleteById(id);
+    }
+
+    public Set<Project> getAllProjectsByUser(UUID userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
+        return user.getMemberProjects();
     }
 }

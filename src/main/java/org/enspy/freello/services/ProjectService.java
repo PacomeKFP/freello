@@ -1,9 +1,11 @@
 package org.enspy.freello.services;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.enspy.freello.models.Project;
+import org.enspy.freello.models.Task;
 import org.enspy.freello.models.User;
 import org.enspy.freello.models.dto.CreateProjectDto;
 import org.enspy.freello.repositories.ProjectRepository;
@@ -76,5 +78,14 @@ public class ProjectService {
         
         // Enregistrement des modifications dans la base de données
         return projectRepository.save(projects);
+    }
+
+    public Set<Task> getAllTasksByProject(UUID projectId) {
+        // Trouver le projet par son ID
+        Project project = projectRepository.findById(projectId)
+            .orElseThrow(() -> new IllegalArgumentException("Projet non trouvé avec l'ID: " + projectId));
+        
+        // Retourner l'ensemble des tâches associées au projet
+        return project.getTasks();
     }
 }

@@ -1,9 +1,11 @@
 package org.enspy.freello.controllers;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.enspy.freello.models.Project;
+import org.enspy.freello.models.Task;
 import org.enspy.freello.models.User;
 import org.enspy.freello.models.dto.CreateProjectDto;
 import org.enspy.freello.services.ProjectService;
@@ -50,5 +52,10 @@ public class ProjectController {
     @PostMapping("/projects/{projectId}/members/{memberId}")
     public void addMember(@RequestParam UUID projectId, @RequestParam UUID memberId){
         projectService.addMemberToProject(projectId, memberId);
+    }
+
+    @GetMapping("/projects/{projectId}/tasks")
+    public Set<Task> getAllTasksByProject(@RequestParam UUID projectId){
+        return projectService.getAllTasksByProject(projectId);
     }
 }

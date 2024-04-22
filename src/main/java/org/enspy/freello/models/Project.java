@@ -29,7 +29,7 @@ public class Project {
 
     // gestion des taches
     @OneToMany(mappedBy = "projet")
-    private Set<Task> projects = new HashSet<>();
+    private Set<Task> tasks = new HashSet<>();
 
     // gestion de l'admin
     @ManyToOne
