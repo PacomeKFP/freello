@@ -35,7 +35,7 @@ public class ProjectController {
     }
 
     @PostMapping("/projects")
-    public Iterable<Project> createProject(@RequestBody CreateProjectDto createProjectDto, @RequestParam UUID id){
+    public Project createProject(@RequestBody CreateProjectDto createProjectDto, @RequestParam UUID id){
         return projectService.add(createProjectDto, new User(id));
     }
 

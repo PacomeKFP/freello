@@ -33,14 +33,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Iterable<User> add(CreateUserDto createUserDto){
+    public User add(CreateUserDto createUserDto){
         User users = new User();
         users.setName(createUserDto.getName());
         users.setEmail(createUserDto.getEmail());
         users.setPassword(createUserDto.getPassword());
 
-        userRepository.save(users);
-        return userRepository.findAll();
+        return userRepository.save(users);
     }
 
     public Optional<User> update(UUID id, CreateUserDto createUserDto){
@@ -59,8 +58,24 @@ public class UserService {
     }
 
     public Set<Project> getAllProjectsByUser(UUID userId) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
         return user.getMemberProjects();
+    }
+
+    public User loginUser(String email, String password) {
+        // Recherche de l'utilisateur par e-mail
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé avec cet e-mail"));
+
+        // Vérification du mot de passe
+        if (passwordMatches(user, password)) {
+            return user; // Connexion réussie
+        } else {
+            throw new IllegalArgumentException("Mot de passe incorrect");
+        }
+    }
+
+    private boolean passwordMatches(User user, String password) {
+        return user.getPassword().equals(password);
     }
 }

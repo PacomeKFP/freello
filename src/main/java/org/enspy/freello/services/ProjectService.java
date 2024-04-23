@@ -37,15 +37,13 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public Iterable<Project> add(CreateProjectDto createProjectDto, User creator){
+    public Project add(CreateProjectDto createProjectDto, User creator){
 
         Project projects = new Project();
         projects.setName(createProjectDto.getName());
         projects.setAdmin(creator);
         projects.getMembers().add(creator); // Ajouter le créateur aux membres du projet
-        projectRepository.save(projects);
-
-        return projectRepository.findAll();
+        return projectRepository.save(projects);
     }
 
     public Optional<Project> update(UUID id, CreateProjectDto createProjectDto){

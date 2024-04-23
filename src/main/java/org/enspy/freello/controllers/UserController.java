@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public Iterable<User> createUser(@RequestBody CreateUserDto createUserDto){
+    public User createUser(@RequestBody CreateUserDto createUserDto){
         return userService.add(createUserDto);
     }
 
@@ -56,5 +56,10 @@ public class UserController {
     @GetMapping("/users/{id}/projects")
     public Set<Project> getAllProjectsByUser(@RequestParam UUID id){
         return userService.getAllProjectsByUser(id);
+    }
+
+    @PostMapping("/users/login")
+    public Optional<User> loginUser(@RequestParam String email, @RequestParam String password){
+        return Optional.of(userService.loginUser(email, password));
     }
 }

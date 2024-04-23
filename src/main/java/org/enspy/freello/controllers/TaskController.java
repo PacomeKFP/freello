@@ -33,11 +33,11 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public Iterable<Task> create(@RequestBody CreateTaskDto createTaskDto, @RequestParam UUID id){
+    public Task create(@RequestBody CreateTaskDto createTaskDto, @RequestParam UUID id){
         return taskService.add(createTaskDto, new Project(id));
     }
 
-    @PatchMapping("/tasks/{id}")
+    @PatchMapping("/tasks")
     public Optional<Task> updateTask(@RequestParam UUID id, @RequestBody CreateTaskDto createTaskDto){
         return taskService.update(id, createTaskDto);
     }

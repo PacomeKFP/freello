@@ -37,7 +37,7 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Iterable<Task> add(CreateTaskDto createTaskDto, Project project){
+    public Task add(CreateTaskDto createTaskDto, Project project){
         Task task = new Task();
         Date date = new Date(System.currentTimeMillis());
         task.setTitle(createTaskDto.getTitle());
@@ -47,9 +47,7 @@ public class TaskService {
         task.setCreatedAt(date);
         task.getCollaborators().add(createTaskDto.getProjectAsProject().getAdmin());
 
-        taskRepository.save(task);
-
-        return taskRepository.findAll();
+        return taskRepository.save(task);
     }
 
     public Optional<Task> update(UUID id, CreateTaskDto createTaskDto){
